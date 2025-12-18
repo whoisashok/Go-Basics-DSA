@@ -14,8 +14,9 @@ func rotateLeft(arr []int, k int) []int {
 	fmt.Println("k:", k)
 
 	// Create a new slice by appending the elements after k to the elements before k
-	rotatedArr := append(arr[k:], arr[:k]...)
-	return rotatedArr
+	rotatedArrLeft := append(arr[k:], arr[:k]...)
+	//rotatedArrRight := append(arr[arrlen-k:], arr[:arrlen-k]...)
+	return rotatedArrLeft
 }
 
 func RotateArraysLeft() {

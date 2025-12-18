@@ -2,40 +2,50 @@ package main
 
 import "fmt"
 
-type ArrayManipulation interface {
+// Interface definition
+type ArrayOperations interface {
 	ArrayAdd() []int
 	ArrayConcat() []int
 }
 
-// Since the Arrayes type implements both ArrayAdd() and ArrayConcat() with the correct signatures,
-// it implicitly implements the ArrayManipulation interface
-type Arrayes struct {
+// Since the ArrayImpl type implements both ArrayAdd() and ArrayConcat() with the correct signatures,
+// it implicitly implements the ArrayOperations interface
+type ArrayImpl struct {
 	Arr1 []int
 	Arr2 []int
 }
 
-func (a Arrayes) ArrayAdd() (res []int) {
+// Method for element-wise array addition
+func (a ArrayImpl) ArrayAdd() (result []int) {
+	if len(a.Arr1) != len(a.Arr2) {
+		fmt.Println("Arrays must be of same length for addition")
+		return nil
+	}
 	for i := range a.Arr1 {
 		sum := a.Arr1[i] + a.Arr2[i]
-		res = append(res, sum)
+		result = append(result, sum)
 	}
-	return res
+	return result
 }
 
-func (a Arrayes) ArrayConcat() (res []int) {
-	res = append(a.Arr1, a.Arr2...)
-	return res
+// Method for array concatenation
+func (a ArrayImpl) ArrayConcat() (result []int) {
+	result = append(a.Arr1, a.Arr2...)
+	return result
 }
 
+// Main function to demonstrate interface usage
 func Interfaces() {
 	var arr1 = []int{1, 2, 3}
 	var arr2 = []int{1, 2, 3}
 
-	ArrayManipulationInterface := Arrayes{Arr1: arr1, Arr2: arr2}
+	ArrayOperationsInterface := ArrayImpl{Arr1: arr1, Arr2: arr2}
 
-	arrayAdd := ArrayManipulationInterface.ArrayAdd()
-	arrayConcat := ArrayManipulationInterface.ArrayConcat()
+	arrayAdd := ArrayOperationsInterface.ArrayAdd()
+	arrayConcat := ArrayOperationsInterface.ArrayConcat()
 
-	fmt.Println("arrayAdd    =    ", arrayAdd)
-	fmt.Println("arrayConcat    =    ", arrayConcat)
+	fmt.Println("Array 1:", arr1)
+	fmt.Println("Array 2:", arr2)
+	fmt.Println("Array Add:", arrayAdd)
+	fmt.Println("Array Concat:", arrayConcat)
 }

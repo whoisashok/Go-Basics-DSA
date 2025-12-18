@@ -1,11 +1,18 @@
 package main
 
-func printSlice[T int | string | any](s []T) {
-	for _, v := range s {
+// Generic type constraint to allow multiple types
+type Element interface {
+	int | string | any
+}
+
+// Generic function to print elements of a slice of any type
+func printSlice[T Element](inputArray []T) {
+	for _, v := range inputArray {
 		println(v)
 	}
 }
 
+// Main function to demonstrate generics usage
 func Generic() {
 	intSlice := []int{1, 2, 3, 4, 5}
 	stringSlice := []string{"a", "b", "c", "d", "e"}

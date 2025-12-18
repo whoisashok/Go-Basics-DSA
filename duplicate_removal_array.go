@@ -34,6 +34,19 @@ func removeStringDuplicates(input []string) []string {
 	return result
 }
 
+// removeStringDuplicates is a similar function for strings to remove duplicate characters
+func removeDuplicateChars(input string) []string {
+	encountered := make(map[rune]bool)
+	var result []string
+	for _, v := range input {
+		if !encountered[v] {
+			encountered[v] = true
+			result = append(result, string(v))
+		}
+	}
+	return result
+}
+
 func RemoveDuplicates() {
 	numbers := []int{1, 2, 2, 3, 4, 4, 5, 1, 6}
 	fmt.Println("Original slice:", numbers)
@@ -46,4 +59,9 @@ func RemoveDuplicates() {
 	fmt.Println("Original string slice:", words)
 	uniqueWords := removeStringDuplicates(words) // Assuming a similar function for strings
 	fmt.Println("String slice after removing duplicates:", uniqueWords)
+
+	inputString := "hello world"
+	uniqueString := removeDuplicateChars(inputString)
+	fmt.Printf("Original string: %s\n", inputString)
+	fmt.Printf("String with unique characters: %s\n", uniqueString) // Output: helo wrd
 }
