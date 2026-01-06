@@ -10,3 +10,11 @@ func ProcessNumber(input int, output chan<- int) {
 		output <- input * 2
 	}()
 }
+
+func main() {
+	// Example usage
+	output := make(chan int)
+	ProcessNumber(5, output)
+	result := <-output
+	println("Processed result:", result)
+}

@@ -22,6 +22,7 @@ type Database interface {
 	Rollback() error
 }
 
+// NewDatabase creates a new in-memory simple database
 func NewDatabase() Database {
 	return &db{}
 }
@@ -50,7 +51,10 @@ func (d *db) Unset(key string) {
 
 // Begin opens a new transaction
 func (d *db) Begin() {
-	d.tx = make(map[string]int)
+	// Copy current data to transaction map
+	for k, v := range d.data {
+		d.tx[k] = v
+	}
 }
 
 // Commit closes all open transaction blocks, permanently apply the
