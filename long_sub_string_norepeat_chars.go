@@ -1,48 +1,42 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-)
+import "fmt"
 
-func long_sub_string_norepeat_chars() {
-	// Define the string to be tested
-	var str string = "conceptoftheday"
+func longestSubstringNoRepeat(s string) (string, int) {
+	lastSeen := make(map[byte]int)
 
-	// Define variables to store the longest known string
-	// and the current test string
-	var longestString string = ""
-	var currentString string = ""
+	// Window is empty at the start
+	left := 0
+	maxLen := 0
+	startIndex := 0
 
-	// Loop through each of the characters in the string
-	for i := 0; i < len(str); i++ {
-		// Get the next character
-		var char string = string(str[i])
+	for right := 0; right < len(s); right++ {
 
-		// Check to see if the current test string contains
-		// the next character
-		if strings.Contains(currentString, char) {
-
-			// See if the string we have finished
-			// finding is the longest string
-			if currentString > longestString {
-				longestString = currentString
-			}
-
-			// Split the string on the repeated character
-			currentString = strings.Split(currentString, char)[1]
+		// If duplicate found inside the window
+		if duplicateIndx, found := lastSeen[s[right]]; found && duplicateIndx >= left {
+			// Move the start to the right of the last occurrence
+			// We must remove the previous 'c' from the window.
+			left = duplicateIndx + 1
 		}
 
-		// Add the next character to our current string
-		currentString = currentString + char
+		// Update last seen position
+		lastSeen[s[right]] = right
+
+		// Update max length
+		currentLen := right - left + 1
+		if currentLen > maxLen {
+			maxLen = currentLen
+			startIndex = left
+		}
 	}
 
-	// Final check at the end of the loop
-	if len(currentString) > len(longestString) {
-		longestString = currentString
-	}
+	return s[startIndex : startIndex+maxLen], maxLen
+}
 
-	// Output the longest string
-	fmt.Println("The longest string is:", longestString)
-	fmt.Println("The length of longest string is:", len(longestString))
+func LongestSubstringNoRepeat() {
+	s := "conceptoftheday"
+	sub, length := longestSubstringNoRepeat(s)
+
+	fmt.Println("The longest string is:", sub)              // Output: oftheday
+	fmt.Println("The length of longest string is:", length) // Output: 8
 }

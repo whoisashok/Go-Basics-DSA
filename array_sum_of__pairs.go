@@ -5,21 +5,26 @@ import (
 	"sort"
 )
 
-func findPairsWithSumHashMap(arr []int, targetSum int) {
+func findPairsWithSumHashMap(arr []int, targetSum int) [][]int {
 	seen := make(map[int]int) // Maps element value to its index
+	pairs := [][]int{}        // To store pairs
 
-	for i, num := range arr {
+	for _, num := range arr {
 		complement := targetSum - num
 		if _, found := seen[complement]; found {
-			fmt.Printf("Pair found: (%d, %d) at indices (%d, %d)\n", complement, num, seen[complement], i)
-			return // Return after finding the first pair, or remove 'return' to find all pairs
+			// Found a pair and append to return
+			pairs = append(pairs, []int{num, complement})
+			// Decrement count or remove to avoid reusing the same element
+			seen[complement]--
 		}
-		seen[num] = i
+		// Add current number to the map
+		seen[num]++
 	}
-	fmt.Println("No pair found with the given sum.")
+	return pairs
 }
 
-func findPairsWithSumTwoPointers(arr []int, targetSum int) {
+func findPairsWithSumTwoPointers(arr []int, targetSum int) [][]int {
+	pairs := [][]int{}
 	sort.Ints(arr) // Sort the array
 
 	left := 0
@@ -27,37 +32,59 @@ func findPairsWithSumTwoPointers(arr []int, targetSum int) {
 
 	for left < right {
 		currentSum := arr[left] + arr[right]
-
 		if currentSum == targetSum {
-			fmt.Printf("Pair found: (%d, %d)\n", arr[left], arr[right])
-			return // Return after finding the first pair, or remove 'return' to find all pairs
+			pairs = append(pairs, []int{arr[left], arr[right]})
+			left++
+			right--
 		} else if currentSum < targetSum {
 			left++
 		} else { // currentSum > targetSum
 			right--
 		}
 	}
-	fmt.Println("No pair found with the given sum.")
+	return pairs
+}
+
+func minSubArrayLen(nums []int, target int) {
+	left := 0
+	sum := 0
+	minLen := len(nums) + 1
+
+	for right := 0; right < len(nums); right++ {
+		sum += nums[right]
+
+		// Shrink window while sum >= target
+		for sum >= target {
+			if right-left+1 < minLen {
+				minLen = right - left + 1
+			}
+			// Remove leftmost element from sum and move left pointer
+			sum -= nums[left]
+			left++
+		}
+	}
+
+	if minLen == len(nums)+1 {
+		fmt.Println("No valid subarray found.")
+	}
+	fmt.Printf("Minimum length of subarray: %d\n", minLen)
 }
 
 func ArraySumPairs() {
 	arr1 := []int{4, 3, 6, 7, 8, 1, 9}
 	target1 := 15
 	fmt.Printf("Array: %v, Target: %d\n", arr1, target1)
-	findPairsWithSumHashMap(arr1, target1)
+	result1 := findPairsWithSumHashMap(arr1, target1)
+	fmt.Println(result1)
 
-	arr2 := []int{1, 2, 3, 4, 5}
-	target2 := 10
-	fmt.Printf("\nArray: %v, Target: %d\n", arr2, target2)
-	findPairsWithSumHashMap(arr2, target2)
+	arr2 := []int{4, 3, 6, 7, 8, 1, 9}
+	target2 := 15
+	fmt.Printf("Array: %v, Target: %d\n", arr2, target2)
+	result2 := findPairsWithSumTwoPointers(arr2, target2)
+	fmt.Println(result2)
 
-	arr3 := []int{4, 3, 6, 7, 8, 1, 9}
-	target3 := 15
+	arr3 := []int{1, 4, -4, 0, 2, 2}
+	target3 := 4
 	fmt.Printf("Array: %v, Target: %d\n", arr3, target3)
-	findPairsWithSumTwoPointers(arr3, target3)
-
-	arr4 := []int{1, 2, 3, 4, 5}
-	target4 := 10
-	fmt.Printf("\nArray: %v, Target: %d\n", arr4, target4)
-	findPairsWithSumTwoPointers(arr4, target4)
+	minSubArrayLen(arr3, target3)
 }

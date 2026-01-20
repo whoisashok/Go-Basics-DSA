@@ -26,7 +26,7 @@ func main() {
 	Interfaces2()
 
 	//	LONGEST SUBSTRING WITHOUT REPEATING CHARACTERS
-	long_sub_string_norepeat_chars()
+	LongestSubstringNoRepeat()
 
 	// 	REVERSE SLICE
 	reverse()
