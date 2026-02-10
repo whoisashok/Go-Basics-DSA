@@ -2,16 +2,16 @@ package main
 
 import "fmt"
 
-func permutations(str []byte, l, r int) {
-	if l == r {
+func permutations(str []byte, left, right int) {
+	if left == right {
 		fmt.Println(string(str))
 		return
 	}
 
-	for i := l; i <= r; i++ {
-		str[l], str[i] = str[i], str[l] // swap
-		permutations(str, l+1, r)       // recurse
-		str[l], str[i] = str[i], str[l] // swap back
+	for i := left; i <= right; i++ {
+		str[left], str[i] = str[i], str[left] // swap
+		permutations(str, left+1, right)      // recurse
+		str[left], str[i] = str[i], str[left] // swap back
 	}
 }
 

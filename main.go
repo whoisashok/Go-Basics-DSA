@@ -31,9 +31,4 @@ func main() {
 	// 	REVERSE SLICE
 	reverse()
 
-	//	CHANNELS - SEND & RECEIVE
-	SendReceiveChannels()
-
-	//	GOROUTINES - ODD & EVEN
-	OddEvenGoroutine()
 }

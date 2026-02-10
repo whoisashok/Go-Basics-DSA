@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func reverseSlice[T any](s []T) {
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
+	for left, right := 0, len(s)-1; left < right; left, right = left+1, right-1 {
+		s[left], s[right] = s[right], s[left]
 	}
 }
 

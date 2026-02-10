@@ -6,7 +6,7 @@ import (
 )
 
 func sender(ch chan int, wg *sync.WaitGroup) {
-	for i := 0; i < 10; i++ {
+	for i := range 10 {
 		ch <- i
 	}
 	close(ch)

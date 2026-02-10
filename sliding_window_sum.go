@@ -14,7 +14,7 @@ func maxSubarraySum(arr []int, k int) (int, error) {
 	if k == 0 {
 		current := arr[0]
 		maxSum := arr[0]
-
+		// Iterate through the array, updating the current sum and max sum
 		for i := 1; i < len(arr); i++ {
 			if current < 0 {
 				current = arr[i]
@@ -35,14 +35,16 @@ func maxSubarraySum(arr []int, k int) (int, error) {
 	}
 
 	sum := 0
-	for i := 0; i < k; i++ {
+	// Calculate the sum of the first 'k' elements
+	for i := range k {
 		sum += arr[i]
 	}
-
 	maxSum := sum
 
+	// Slide the window across the array
 	for i := k; i < len(arr); i++ {
 		sum += arr[i]
+		// Remove the element that is sliding out of the window
 		sum -= arr[i-k]
 
 		if sum > maxSum {

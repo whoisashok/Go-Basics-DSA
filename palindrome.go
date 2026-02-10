@@ -10,8 +10,8 @@ func isPalindromeString(s string) bool {
 	s = strings.ToLower(strings.ReplaceAll(s, " ", ""))
 
 	// Use two pointers, one from the start and one from the end
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		if s[i] != s[j] {
+	for left, right := 0, len(s)-1; left < right; left, right = left+1, right-1 {
+		if s[left] != s[right] {
 			return false
 		}
 	}

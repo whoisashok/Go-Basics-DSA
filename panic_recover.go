@@ -20,3 +20,9 @@ func PanicRecover() {
 	mayPanic()
 	fmt.Println("This line will execute after recovery.") // Execution continues here
 }
+
+// Output:
+
+// Inside mayPanic
+// Calling a function that might panic...
+// Recovered from panic: a problem in mayPanic

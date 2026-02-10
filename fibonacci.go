@@ -4,7 +4,7 @@ import "fmt"
 
 func fibonacciIterative(n int) {
 	a, b := 0, 1
-	for i := 0; i < n; i++ {
+	for range n {
 		fmt.Printf("%d ", a)
 		a, b = b, a+b // Update a and b for the next iteration
 	}

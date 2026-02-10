@@ -17,4 +17,10 @@ func main() {
 	ProcessNumber(5, output)
 	result := <-output
 	println("Processed result:", result)
+
+	//	CHANNELS - SEND & RECEIVE
+	SendReceiveChannels()
+
+	//	GOROUTINES - ODD & EVEN
+	OddEvenGoroutine()
 }
