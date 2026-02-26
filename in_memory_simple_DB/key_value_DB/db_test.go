@@ -1,4 +1,4 @@
-package code_challenge
+package in_memory_simple_DB
 
 import (
 	"testing"
