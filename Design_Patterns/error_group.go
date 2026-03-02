@@ -52,7 +52,7 @@ func ErrorGroup() {
 
 	results, err := fetchAPIs(ctx, urls)
 	if err != nil {
-		fmt.Println("Bailed:", err)
+		fmt.Println("Failed:", err)
 		return
 	}
 	for i, r := range results {

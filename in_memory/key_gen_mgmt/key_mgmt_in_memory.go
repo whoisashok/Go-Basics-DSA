@@ -14,7 +14,7 @@ type Key struct {
 	Expires time.Time `json:"expires"`
 }
 
-var store = map[string]Key{}
+var KeyMapStore = map[string]Key{}
 
 func main() {
 	mux := http.NewServeMux()
@@ -34,7 +34,7 @@ func GetKeys(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
 	var res []Key
 
-	for _, k := range store {
+	for _, k := range KeyMapStore {
 		if k.Expires.After(now) {
 			res = append(res, k)
 		}
@@ -47,8 +47,8 @@ func GetKey(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	id := r.PathValue("id")
-	k, ok := store[id]
 
+	k, ok := KeyMapStore[id]
 	if !ok || time.Now().After(k.Expires) {
 		http.NotFound(w, r)
 		return
@@ -79,7 +79,7 @@ func CreateKey(w http.ResponseWriter, r *http.Request) {
 		Expires: exp,
 	}
 
-	store[k.ID] = k
+	KeyMapStore[k.ID] = k
 
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(k)
@@ -88,12 +88,12 @@ func CreateKey(w http.ResponseWriter, r *http.Request) {
 func DeleteKey(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 
-	if _, ok := store[id]; !ok {
+	if _, ok := KeyMapStore[id]; !ok {
 		http.NotFound(w, r)
 		return
 	}
 
-	delete(store, id)
+	delete(KeyMapStore, id)
 	w.WriteHeader(http.StatusNoContent)
 }
 
