@@ -1,0 +1,48 @@
+Implement the handler functions GetKeys, GetKey, CreateKey, and DeleteKey. Use
+in-memory storage; the keys do not need to be persisted across restart. The key
+structure is given. How you manage the storage is up to you.
+
+The get methods should only return keys that are unexpired. If the current
+time is after the key's expiration, it should not be returned in the
+response.
+
+All handler methods should return json data.
+
+Example requests and responses:
+
+# Get all unexpired keys.
+curl --verbose --request GET \
+--url 'http://localhost:8080/keys'
+-> 200
+[{"id":"<uuid>","expires":"<iso date>"},{"id":"<uuid>","expires":"<iso date>"}]
+
+# Get a specific key. If the key is expired, the response should be Not Found/404.
+curl --verbose --request GET \
+--url 'http://localhost:8080/keys/<uuid>'
+-> 200
+{"id":"<uuid>","expires":"<iso date>"}
+-> 404
+
+# Create a key with no expiration. The expiration should be one hour from
+# when the key is created.
+curl --verbose --request POST \
+--url 'http://localhost:8080/keys' \
+--header 'Content-type: application/json' \
+--data '{}'
+-> 204
+{"id":"<uuid>","expires":"<iso date now + 1 hour>"}
+
+# Create a key with explicit expiration. An expires date in the past is accepted.
+curl --verbose --request POST \
+--url 'http://localhost:8080/keys' \
+--header 'Content-type: application/json' \
+--data '{"expires":"<iso date>"}'
+-> 204
+{"id":"<uuid>","expires":"<iso date>"}
+
+# Delete a specific key.
+curl --verbose --request DELETE \
+--url 'http://localhost:8080/keys/<uuid>'
+-> 204
+-> 404
+

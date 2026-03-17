@@ -1,4 +1,4 @@
-package main
+package in_memory
 
 import (
 	"encoding/json"
@@ -10,8 +10,8 @@ import (
 )
 
 type Key struct {
-	ID      string    `json:"id"`
-	Expires time.Time `json:"expires"`
+	ID      string    `json:"id,omitempty"`
+	Expires time.Time `json:"expires,omitempty"`
 }
 
 var KeyMapStore = map[string]Key{}
@@ -60,18 +60,16 @@ func GetKey(w http.ResponseWriter, r *http.Request) {
 func CreateKey(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var body struct {
-		Expires *time.Time `json:"expires"`
-	}
+	var key Key
 
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil && err.Error() != "EOF" {
+	if err := json.NewDecoder(r.Body).Decode(&key); err != nil && err.Error() != "EOF" {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	exp := time.Now().Add(time.Hour)
-	if body.Expires != nil {
-		exp = *body.Expires
+	if !key.Expires.IsZero() {
+		exp = key.Expires
 	}
 
 	k := Key{
