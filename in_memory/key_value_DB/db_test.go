@@ -1,4 +1,4 @@
-package in_memory_simple_DB
+package in_memory
 
 import (
 	"testing"

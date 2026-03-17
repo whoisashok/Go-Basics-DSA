@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+//	https://oneuptime.com/blog/post/2026-02-03-go-goroutines-memory-leaks/view
+
 func workerWithContext(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for {

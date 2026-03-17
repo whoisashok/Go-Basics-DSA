@@ -1,6 +1,8 @@
-package in_memory_simple_DB
+package in_memory
 
-import "errors"
+import (
+	"errors"
+)
 
 type DBInterface interface {
 	// Set the key to given value
@@ -47,6 +49,7 @@ func (db *Database) Set(key string, value int) {
 		// Because transactions are stored as a stack. The most recent transaction is always at the top,
 		// which is the last element in the slice.
 		// So len(db.transactions)-1 gives us the active transaction layer.
+		// transactions is a slice of maps starting from the base data (index 0) to the most recent transaction (last index).
 		top := db.transactions[len(db.transactions)-1]
 		top[key] = &value
 	} else {

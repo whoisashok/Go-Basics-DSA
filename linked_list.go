@@ -5,7 +5,7 @@ type Node struct {
 	Next *Node
 }
 
-type LinkedList struct {
+type linkedList struct {
 	Head *Node
 }
 
@@ -13,7 +13,7 @@ func NewNode(data int) *Node {
 	return &Node{Data: data, Next: nil}
 }
 
-func (list *LinkedList) Append(data int) {
+func (list *linkedList) Append(data int) {
 	node := NewNode(data)
 
 	if list.Head == nil {
@@ -27,7 +27,7 @@ func (list *LinkedList) Append(data int) {
 	}
 }
 
-func (list *LinkedList) AddFirst(data int) {
+func (list *linkedList) AddFirst(data int) {
 	node := NewNode(data)
 
 	if list.Head != nil {
@@ -36,7 +36,7 @@ func (list *LinkedList) AddFirst(data int) {
 	list.Head = node
 }
 
-func (list *LinkedList) Delete(data int) {
+func (list *linkedList) Delete(data int) {
 	if list.Head == nil {
 		return
 	}
@@ -56,7 +56,7 @@ func (list *LinkedList) Delete(data int) {
 	}
 }
 
-func (list *LinkedList) Display() []int {
+func (list *linkedList) Display() []int {
 	var elements []int
 	current := list.Head
 
@@ -68,7 +68,7 @@ func (list *LinkedList) Display() []int {
 	return elements
 }
 func LinkedListDemo() {
-	list := LinkedList{}
+	list := linkedList{}
 	list.Append(20)
 	list.AddFirst(5)
 	list.Delete(20)
