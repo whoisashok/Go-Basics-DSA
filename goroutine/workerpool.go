@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"sort"
 	"sync"
 )
 
-func square(wg *sync.WaitGroup, ch <-chan int, result chan<- int) {
+func workerSquare(wg *sync.WaitGroup, ch <-chan int, result chan<- int) {
 	defer wg.Done()
 	for n := range ch {
 		square := n * n
@@ -14,8 +13,9 @@ func square(wg *sync.WaitGroup, ch <-chan int, result chan<- int) {
 	}
 }
 
-func ConcurrentSync() {
+func WorkerPool() {
 	var num20 []int
+	// Generate numbers from 1 to 20
 	for i := 1; i <= 20; i++ {
 		num20 = append(num20, i)
 	}
@@ -26,11 +26,13 @@ func ConcurrentSync() {
 	ch := make(chan int, len(num20))
 	result := make(chan int, len(num20))
 
+	// Start worker pool
 	for range 5 {
 		wg.Add(1)
-		go square(&wg, ch, result)
+		go workerSquare(&wg, ch, result)
 	}
 
+	// Send numbers to the channel
 	for _, n := range num20 {
 		ch <- n
 	}
@@ -39,11 +41,11 @@ func ConcurrentSync() {
 	wg.Wait()
 	close(result)
 
+	// Collect results
 	var resNum20 []int
 	for m := range result {
 		resNum20 = append(resNum20, m)
 	}
 
-	sort.Ints(resNum20)
 	fmt.Println("Sorted 20 Number :", resNum20)
 }
