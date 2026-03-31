@@ -34,7 +34,7 @@ var (
 func LogMonitor(logs chan string) {
 	// Start worker pool
 	for i := 0; i < workerCount; i++ {
-		go worker(i)
+		go workerLog(i)
 	}
 	// Metrics processor
 	go metricsProcessor()
@@ -47,16 +47,16 @@ func LogMonitor(logs chan string) {
 }
 
 func logHandler(w http.ResponseWriter, r *http.Request) {
-	var log []Log
-	json.NewDecoder(r.Body).Decode(&log)
-	for _, log := range log {
+	var logs []Log
+	json.NewDecoder(r.Body).Decode(&logs)
+	for _, log := range logs {
 		logsChan <- log
 	}
 	w.WriteHeader(http.StatusOK)
 }
 
 // Worker pool to process logs concurrently
-func worker(id int) {
+func workerLog(id int) {
 	for logEntry := range logsChan {
 		// Simulate processing
 		fmt.Printf("Worker %d processing %s log\n", id, logEntry.Service)

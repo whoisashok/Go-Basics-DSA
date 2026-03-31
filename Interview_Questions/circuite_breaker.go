@@ -8,7 +8,7 @@ import (
 	"github.com/sony/gobreaker"
 )
 
-func main() {
+func CircuitBreaker() {
 	settings := gobreaker.Settings{
 		Name:        "API-CB",
 		MaxRequests: 3,

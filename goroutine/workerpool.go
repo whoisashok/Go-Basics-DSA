@@ -1,51 +1,40 @@
 package main
 
-import (
-	"fmt"
-	"sync"
+import "fmt"
+
+const (
+	numWorkers = 5
+	numJobs    = 10
 )
 
-func workerSquare(wg *sync.WaitGroup, ch <-chan int, result chan<- int) {
-	defer wg.Done()
-	for n := range ch {
-		square := n * n
-		result <- square
+// Worker function that processes jobs and sends results
+func poolWorker(id int, jobs <-chan int, results chan<- string) {
+	for job := range jobs {
+		results <- fmt.Sprintf("worker %d processed job %d", id, job)
 	}
 }
 
 func WorkerPool() {
-	var num20 []int
-	// Generate numbers from 1 to 20
-	for i := 1; i <= 20; i++ {
-		num20 = append(num20, i)
-	}
-	//fmt.Println(num20)
-
-	wg := sync.WaitGroup{}
-
-	ch := make(chan int, len(num20))
-	result := make(chan int, len(num20))
+	// Create channels for jobs and results, with buffer to prevent blocking
+	jobs := make(chan int, numWorkers)
+	results := make(chan string, numWorkers)
 
 	// Start worker pool
-	for range 5 {
-		wg.Add(1)
-		go workerSquare(&wg, ch, result)
+	for w := range numWorkers {
+		go poolWorker(w, jobs, results)
 	}
 
-	// Send numbers to the channel
-	for _, n := range num20 {
-		ch <- n
+	// Send jobs to the workers
+	for i := range numJobs {
+		jobs <- i
 	}
-	close(ch)
+	// Close the jobs channel to indicate no more jobs will be sent
+	close(jobs)
 
-	wg.Wait()
-	close(result)
-
-	// Collect results
-	var resNum20 []int
-	for m := range result {
-		resNum20 = append(resNum20, m)
+	// Collect all the results from the results channel
+	for range numJobs {
+		fmt.Println(<-results)
 	}
-
-	fmt.Println("Sorted 20 Number :", resNum20)
+	// Close the results channel after all results have been collected
+	close(results)
 }
