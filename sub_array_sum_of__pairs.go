@@ -75,13 +75,13 @@ func ArraySumPairs() {
 	target1 := 15
 	fmt.Printf("Array: %v, Target: %d\n", arr1, target1)
 	result1 := findPairsWithSumHashMap(arr1, target1)
-	fmt.Println(result1)
+	fmt.Println(result1) // Output: [[6 9] [7 8]]
 
 	arr2 := []int{4, 3, 6, 7, 8, 1, 9}
 	target2 := 15
 	fmt.Printf("Array: %v, Target: %d\n", arr2, target2)
 	result2 := findPairsWithSumTwoPointers(arr2, target2)
-	fmt.Println(result2)
+	fmt.Println(result2) // Output: [[6 9] [7 8]]
 
 	arr3 := []int{1, 4, -4, 0, 2, 2}
 	target3 := 4

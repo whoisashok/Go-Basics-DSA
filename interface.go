@@ -39,8 +39,10 @@ func Interfaces() {
 	var arr1 = []int{1, 2, 3}
 	var arr2 = []int{1, 2, 3}
 
+	// Creating an instance of ArrayImpl which implements the ArrayOperations interface
 	ArrayOperationsInterface := ArrayImpl{Arr1: arr1, Arr2: arr2}
 
+	// Calling the methods defined in the ArrayOperations interface
 	arrayAdd := ArrayOperationsInterface.ArrayAdd()
 	arrayConcat := ArrayOperationsInterface.ArrayConcat()
 

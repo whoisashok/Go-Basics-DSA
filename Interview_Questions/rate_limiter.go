@@ -17,7 +17,7 @@ func RateLimiter() {
 	}
 }
 
-// More robust rate limiter using golang.org/x/time/rate
+// Create a rate limiter that allows 2 requests per second with a burst of 4
 var limiter = rate.NewLimiter(2, 4) // 2 req/sec
 
 func rateLimitMiddleware(next http.Handler) http.Handler {

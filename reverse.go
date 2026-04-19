@@ -11,8 +11,8 @@ func reverseWords(s string) string {
 	words := strings.Fields(s) // strings.Fields handles multiple spaces and trims leading/trailing spaces
 
 	// Reverse the order of elements in the slice using a two-pointer approach
-	for i, j := 0, len(words)-1; i < j; i, j = i+1, j-1 {
-		words[i], words[j] = words[j], words[i]
+	for left, right := 0, len(words)-1; left < right; left, right = left+1, right-1 {
+		words[left], words[right] = words[right], words[left]
 	}
 
 	// Join the reversed words back into a single string with spaces
